@@ -48,10 +48,10 @@ Route::group(['prefix' => 'midtest'], function () {
     Route::post('storeEditMahasiswa','midtest@storeEditMahasiswa')->name('admin.storeEditMahasiswa');
     
 });
-Route::get('test', function () {
-    event(new App\Events\StatusLiked('Someone'));
-    return "Event has been sent!";
-});
-Route::get('send', 'midtest@sendNotification');
+// Route::get('test', function () {
+//     event(new App\Events\StatusLiked('Someone'));
+//     return "Event has been sent!";
+// });
+// Route::get('send', 'midtest@sendNotification');
 
 
