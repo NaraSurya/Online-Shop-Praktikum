@@ -1,73 +1,98 @@
-@extends('layouts.app')
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login Admin') }}</div>
+    <title>Admin Online</title>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('admin.login.submit') }}">
-                        @csrf
+    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('css/metisMenu.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('css/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('css/dataTables.responsive.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('css/sb-admin-2.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" type="text/css"/>
 
-                        <div class="form-group row">
-                            <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('username') }}</label>
+    <style type="text/css">
+        div#content-inner-login {float:center; padding:0px 0 15px 0; margin:30px 50px 130px 50px; background-color:#fff;}
+    </style>
+</head>
+<body>
+            @if(\Session::has('alert'))
 
-                            <div class="col-md-6">
-                                <input id="username" type="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required autofocus>
+                <div class="alert alert-danger">
 
-                                @if ($errors->has('username'))
+                    <div>{{Session::get('alert')}}</div>
+
+                </div>
+
+            @endif
+
+            @if(\Session::has('alert-success'))
+
+                <div class="alert alert-success">
+
+                    <div>{{Session::get('alert-success')}}</div>
+
+                </div>
+
+            @endif
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please Sign In</h3>
+                    </div>
+                    <div class="panel-body">
+                       <form method="POST" action="{{ route('admin.login.submit') }}">
+                                @csrf
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('username') }}</label>
+                                    <input id="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}"  placeholder="username" name="username" type="username" 
+                                    value="{{ old('username') }}"required autofocus size="21" maxlength="20">
+                                      @if ($errors->has('username'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('username') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                    <input id="password" class="form-control" placeholder=" Password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"name="password" type="password" size="21" maxlength="20">
+                                     @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
+                                <!-- Change this to a button or input when using this as a form -->
+                                <input type="submit" value="LOGIN" class="btn btn-lg btn-success btn-block"/>
+                                  @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
-                            </div>
-                        </div>
-                    </form>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+
+<script src="{{asset('js/jquery.min.js')}}"></script>
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/metisMenu.min.js')}}"></script>
+<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('js/dataTables.bootstrap.min.js')}}"></script>
+<script src="{{asset('js/dataTables.responsive.js')}}"></script>
+<script src="{{asset('js/sb-admin-2.js')}}"></script>
+    
+</body>
+</html>

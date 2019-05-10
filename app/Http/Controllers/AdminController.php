@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use DB;
 use App\Admin;
 use Hash;
 use _File;
@@ -38,8 +38,8 @@ class AdminController extends Controller
             'name' => 'required|string|max:191',
             'username'=>'required|string|max:191|unique:admins',
             'password'=>'required|min:8|string|confirmed',
-            'picture'=>'required',
-            'phone'=>'required'
+            //'picture'=>'required',
+            //'phone'=>'required'
         ]);
         
         $admin = Admin::create([
@@ -52,4 +52,6 @@ class AdminController extends Controller
 
         return redirect()->route('admin.home');
     }
+  
+    
 }
