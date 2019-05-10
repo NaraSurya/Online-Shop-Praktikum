@@ -1,13 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.loginUser')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
+        <div class="col-md-9 p-5" style="background-color : rgba(255,255,255,0.8);">
+            <div class="row mb-3">
+                <div class="col-12 text-center">
+                    <h5>Login</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -58,7 +61,7 @@
                                 </button>
 
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    <a class="btn btn-sm btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
