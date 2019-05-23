@@ -10,7 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+use App\User;
+use App\Notifications\NewItem;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -37,6 +38,13 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('editProduct/{id}','produk@editProduct');
     Route::get('tambahDetailCatProduct','produk@tambahDetailCatProduct')->name('admin.tambahDetailCatProduct');
     Route::post('storeEditProduct','produk@storeEditProduct')->name('admin.storeEditProduct');
+    Route::get('tambahCourier','produk@tambahCourier')->name('admin.dataCourier');
+    Route::get('tambahCourierBaru','produk@tambahCourierBaru')->name('admin.tambahCourier');
+    Route::get('storeCourier','produk@storeCourier')->name('admin.storeCourier');
+    Route::get('editCourier/{id}','produk@editCourier');
+    Route::get('storeEditCourier','produk@storeEditCourier')->name('admin.storeEditCourier');
+    Route::get('markReadAdmin','produk@markReadAdmin')->name('admin.markReadAdmin');
+    
 });
 
 Route::group(['prefix' => 'midtest'], function () {
@@ -48,10 +56,14 @@ Route::group(['prefix' => 'midtest'], function () {
     Route::post('storeEditMahasiswa','midtest@storeEditMahasiswa')->name('admin.storeEditMahasiswa');
     
 });
-// Route::get('test', function () {
-//     event(new App\Events\StatusLiked('Someone'));
-//     return "Event has been sent!";
-// });
-// Route::get('send', 'midtest@sendNotification');
+Route::GET('test', function () {
+    event(new App\Events\StatusLiked('Someone'));
+    return "Event has been sent!";
+});
+Route::get('send', 'midtest@sendNotification');
+
+
+
+
 
 

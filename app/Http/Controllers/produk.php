@@ -3,9 +3,12 @@ namespace App\Http\Controllers;
 use File;
 use Image;
 use DB;
-use App\Admin;
+use App\admin;
+use App\adminNot;
 use Hash;
 use Illuminate\Http\Request;
+use App\Notifications\NewItem;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
 class produk extends Controller
@@ -51,6 +54,8 @@ class produk extends Controller
         }else{
             $id=$idTemp+1;
         }
+       $nama=$req->product_name;
+        auth()->user()->notify(new NewItem('bramasta ganteng'));
         $data1=[
             'product_name'=>$req->product_name,
             'price'=>$req->price,
@@ -123,6 +128,7 @@ class produk extends Controller
         return view("editProduct",compact('product1','cat','catId','catName'));
     }
     public function storeEditProduct(Request $req){
+        auth()->user()->notify(new NewItem('update bramasta'));
         $tanggal=date("Y-m-d H:i:s");
         $idProduct=Session::get('idProduct'); 
         $idImages=Session::get('idImages');
@@ -152,5 +158,45 @@ class produk extends Controller
         Session::flush();
         return redirect()->route('admin.Product');
         
+    }
+    public function tambahCourier(){
+        $panggil=DB::select('select * FROM couriers');
+        return view("dataCourier",compact('panggil'));
+    }
+    public function tambahCourierBaru(){
+        return view("tambahDataCourier");
+    }
+    public function storeCourier(Request $req){
+        $tanggal=date("Y-m-d H:i:s");
+        $dataProduct=[
+            'courier'=>$req->Courier,
+            'created_at'=>$tanggal,
+        ];
+        DB::table('couriers')->insert($dataProduct);
+    }
+    public function editCourier($id){
+        
+        Session::put('idCourier',$id);
+        $panggil=DB::select('select courier FROM couriers where id=?', array($id));
+        foreach ($panggil as $key ) {
+           $cat=$key->courier;
+        }
+        return view('editCourier',compact('cat'));
+    }
+    public function storeEditCourier(Request $req){
+    
+        $id=Session::get('idCourier');
+        $tanggal=date("Y-m-d H:i:s");
+        $dataProduct=[
+            'courier'=>$req->Courier,
+            'updated_at'=>$tanggal,
+        ];
+        DB::table('couriers')->where('id', $id)->update($dataProduct);
+    }
+    public function markReadAdmin(){
+        $tanggal=date("Y-m-d H:i:s");
+        $admin = admin::find(6);
+        $admin->unreadNotifications()->update(['read_at' => $tanggal]);
+        return redirect()->back();
     }
 }

@@ -18,8 +18,13 @@
     <link href="{{asset('css/dataTables.responsive.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('css/sb-admin-2.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" type="text/css"/>
-
+    <script type="text/javascript">
+    </script>
     <!--<link href="style.css" rel="stylesheet" type="text/css">-->
+    @php
+    $jum = DB::table('admin_notifications')->where('read_at',NULL)->count();
+    $notif = DB::table('admin_notifications')->where('read_at',NULL)->get();
+    @endphp     
 </head>
 
 
@@ -168,56 +173,18 @@
                     <!-- /.dropdown-tasks -->
                 </li>
                 <!-- /.dropdown -->
-                <li class="dropdown">
+                <li class="dropdown" >
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                      <span class="glyphicon glyphicon-globe"></i> notification
+                      <span class="badge">{{count(auth()->user()->unreadNotifications)}}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
                         <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> UserName
-                                    <span class="pull-right text-muted small">{{Session::get('nama')}}</span>
-                                </div>
-                            </a>
+                            @foreach($notif as $notif)
+                                    <li><a href="{{route('admin.markReadAdmin')}}"> {{$notif->data}}</a></li>
+                            @endforeach
                         </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> User Role
-                                     @if(Session::get('user_role') == 1)
-                                    <span class="pull-right text-muted small">Pengelola Simpanan</span>
-                                       @elseif(Session::get('user_role') == 2)
-                                     <span class="pull-right text-muted small">Pengelola Pinjaman</span>
-                                        @elseif(Session::get('user_role') == 3)
-                                      <span class="pull-right text-muted small">Admin</span>
-                                      @endif
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> NOTIF
-                                    <span class="pull-right text-muted small">{{Session::get('notif')}}</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-tasks fa-fw"></i> auto generated
-                                    @if(Session::get('auto') == 1)
-                                    <span class="pull-right text-muted small">ON</span>
-                                       @elseif(Session::get('auto') == 0)
-                                    <span class="pull-right text-muted small">OFF</span>
-                                     @endif
-                                </div>
-                            </a>
-                        </li>
+                       
                        
                     </ul>
                     <!-- /.dropdown-alerts -->
@@ -271,7 +238,7 @@
                                     <a href="{{route('admin.detailCatProduct')}}">detail product</a>
                                 </li>
                                  <li>
-                                    <a href="{{URL('/inputBunga')}}">product images</a>
+                                    <a href="{{route('admin.dataCourier')}}">Courier</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -303,7 +270,7 @@
                                     </ul>
                                 </li> -->
                             </ul>
-                            <!-- /.nav-second-level -->
+                            <!-- /.nav-second-level -f->
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Report <span class="fa arrow"></span></a>
@@ -332,6 +299,31 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+        $('#readnotif').click(function(){
+            $.ajax({
+                  url:{{route('admin.markReadAdmin')}},  
+                  type :'get',
+                  dataType: 'JSON',
+                  data: {
+                    "_token": "{{ csrf_token() }}",
+                    
+                    }
+                  success:function(response){
+                        location.reload();
+                  },
+                  error:function(){
+                    alert("GAGAL");
+                  }
+
+              });
+        });
+    });
+</script>
+
 
         @show
 
