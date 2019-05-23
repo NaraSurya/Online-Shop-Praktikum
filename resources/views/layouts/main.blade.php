@@ -26,7 +26,7 @@
         }
 
         .container {
-            max-width: 960px;
+            max-width: 1300px;
         }
 
         /*

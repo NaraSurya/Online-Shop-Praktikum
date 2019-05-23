@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use DB;
 
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:web');
+        
     }
 
     /**
@@ -23,6 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $products=DB::select("call ambilProduct");
+        return view('welcome', ['products'=>$products]);
+    }
+
+    public function product(){
+        return view('user.product');
     }
 }

@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home');;
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 Route::get('user/logout','Auth\LoginController@logoutUser')->name('user.logout');
 
 Route::group(['prefix' => 'admin'], function () {
@@ -47,6 +43,11 @@ Route::group(['prefix' => 'midtest'], function () {
     Route::get('hapusMahasiswa/{id}','midtest@hapusMahasiswa');
     Route::post('storeEditMahasiswa','midtest@storeEditMahasiswa')->name('admin.storeEditMahasiswa');
     
+});
+
+
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/product/{id}','HomeController@product')->name('user.product');
 });
 // Route::get('test', function () {
 //     event(new App\Events\StatusLiked('Someone'));
