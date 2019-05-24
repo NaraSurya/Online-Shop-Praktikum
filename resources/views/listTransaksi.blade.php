@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Koperasi Simpan Pinjam Online | Admin</title>
+    <title>Admin</title>
     
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('css/metisMenu.min.css')}}" rel="stylesheet" type="text/css"/>
@@ -35,6 +35,7 @@
     opacity: .8;
 }
 </style>
+
     <!--<link href="style.css" rel="stylesheet" type="text/css">-->
 </head>
 <body>
@@ -67,7 +68,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            User Koperasi Simpan Pinjam Online
+                            User Admin Prognet
                         </div>
                         <div class="row">
                             <div class="col-lg-10" style="margin-top: 20px; margin-left: 20px;">
@@ -81,18 +82,19 @@
                                 </form>
                             </div>
                         </div>  
-                        <input type="button" value="+ product" class="btn btn-primary" onclick=location.href="{{ route('admin.tambahCatProduct')}}" title="Add User" style="margin-left: 20px;">
+                        <input type="button" value="+ product" class="btn btn-primary" onclick=location.href="{{ route('admin.tambahProduct')}}" title="Add User" style="margin-left: 20px;">
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>  
-                                        <th>no.</th>
-                                        <th>id</th>
-                                        <th>category_name</th>
-                                        <th>created_at</th>
-                                        <th>update_at</th>
-                                        <th>opsi</th>
+                                        <th>photo.</th>
+                                        <th>id user</th>
+                                        <th>id ongkir</th>
+                                        <th>harga</th>
+                                        <th>ongkos</th>
+                                        <th>status</th>
+                                        <th>aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -120,31 +122,44 @@
                                 @php(
                                       $no = 1 {{-- buat nomor urut --}}
                                             )
-                                @if(count($product)>0)
-                                 @foreach ($product as $angs)
+                                @if(count($product1)>0)
+                                    @foreach ($product1 as $angs)
                                 <tr align="center">
-                                    <td>{{ $no++ }}<div align="center"></div></td>
-                                    @if($angs->id==null)
+                                    <td>
+                                        @if (!empty($angs->proof_of_payment))
+                                            <img src="{{ asset('uploads/products/' . $angs->proof_of_payment) }}" 
+                                            alt="{{ $angs->proof_of_payment}}" width="50px" height="50px">
+                                        @else
+                                             <img src="http://via.placeholder.com/50x50" alt="{{ $angs->proof_of_payment }}">
+                                         @endif
+                                    </td>
+                                    @if($angs->user_id==null)
                                     <td>ga ada data<div align="center"></div></td>
                                      @else
-                                        <td>{{ $angs->id}}<div align="center"></div></td>
+                                        <td>{{ $angs->user_id}}<div align="center"></div></td>
                                     @endif
-                                    @if($angs->category_name==null)
+                                    @if($angs->courier_id==null)
                                     <td>ga ada data<div align="center"></div></td>
                                      @else
-                                        <td>{{ $angs->category_name}}<div align="center"></div></td>
+                                        <td>{{ $angs->courier_id}}<div align="center"></div></td>
                                     @endif
-                                    @if($angs->created_at==null)
+                                    @if($angs->shipping_cost==null)
                                     <td>ga ada data<div align="center"></div></td>
                                      @else
-                                        <td>{{ $angs->created_at}}<div align="center"></div></td>
+                                        <td>{{ $angs->shipping_cost}}<div align="center"></div></td>
                                     @endif
-                                    @if($angs->updated_at==null)
+                                    @if($angs->sub_total==null)
                                     <td>ga ada data<div align="center"></div></td>
                                      @else
-                                        <td>{{ $angs->updated_at}}<div align="center"></div></td>
+                                        <td>{{ $angs->sub_total}}<div align="center"></div></td>
                                     @endif
-                                     <td bgcolor="#EEF2F7"><a href="{{URL('/admin/editCategory')}}/{{$angs->id}}">Edit</a></div></td>
+                                    @if($angs->status==null)
+                                    <td>ga ada data<div align="center"></div></td>
+                                     @else
+                                        <td>{{ $angs->status}}<div align="center"></div></td>
+                                    @endif
+                                                                
+                                     <td bgcolor="#EEF2F7"><a href={{URL('/admin/verifikasi')}}/{{$angs->id}}>verifikasi</a></div></td>
 
                                 </tr>
                                          @endforeach

@@ -119,6 +119,51 @@
 <script src="{{asset('js/morris-data.js')}}"></script>
 <script src="{{asset('js/raphael.min.js')}}"></script>
 
-</script>        
+<script>
+    var bulan = <?php echo json_encode($reportBulanan); ?>;
+    console.log(bulan)
+    var bulanLabel = bulan.map(bulan=>{
+        return bulan.bulan;
+    })
+    var bulanData = bulan.map(bulan=>{
+        return bulan.pendapatan;
+    }) 
+
+
+
+    var barChartData = {
+        labels: bulanLabel,
+        datasets: [{
+            label: 'bulan',
+            backgroundColor: "rgba(220,220,220,0.5)",
+            data: bulanData
+        }]
+    };
+
+
+    window.onload = function() {
+        var ctx = document.getElementById("canvas").getContext("2d");
+        window.myBar = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                elements: {
+                    rectangle: {
+                        borderWidth: 2,
+                        borderColor: 'rgb(0, 255, 0)',
+                        borderSkipped: 'bottom'
+                    }
+                },
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Report Transaksi'
+                }
+            }
+        });
+
+
+    };
+</script>    
 </body>
 </html>

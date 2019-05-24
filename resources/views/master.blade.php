@@ -38,7 +38,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{url('/coba')}}">Admin Online</a>
+                <a class="navbar-brand" href="{{Route('admin.index')}}">Admin Online</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -176,7 +176,7 @@
                 <li class="dropdown" >
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                       <span class="glyphicon glyphicon-globe"></i> notification
-                      <span class="badge">{{count(auth()->user()->unreadNotifications)}}</span>
+                      @if($jum != 0)<span class="badge" style="background-color: red;">{{$jum}}</span>@endif <span class="caret"></span></a>
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
                         <li>
@@ -247,7 +247,7 @@
                             <a href="#"><i class="fa fa-sitemap fa-fw"></i> Menu Transaksi<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{URL('/tampilcariNasabah')}}">Transaksi</a>
+                                    <a href="{{route('admin.transaction')}}">Status Transaksi</a>
                                 </li>
                                 <li>
                                     <a href="{{URL('/generated')}}">Status Transaksi</a>

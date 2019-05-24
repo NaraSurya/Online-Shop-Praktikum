@@ -5,35 +5,22 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Carbon\Carbon;
+use Illuminate\Notifications\Messages\MailMessage;
 
-class NewItem extends Notification
+class User extends Notification
 {
     use Queueable;
-
-   
-
-    /**
-
-     * Create a new notification instance.
-
-     *
-
-     * @return void
-
-     */
-    public $produkIni;
-   
+    private $url;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($nama)
+    public function __construct($url)
     {
-        $this->produkIni=$nama;
+        $this->url=$url;
     }
-   
+
     /**
      * Get the notification's delivery channels.
      *
@@ -44,13 +31,21 @@ class NewItem extends Notification
     {
         return ['database'];
     }
-   
+
     /**
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
+    }
+
     /**
      * Get the array representation of the notification.
      *
@@ -59,12 +54,8 @@ class NewItem extends Notification
      */
     public function toArray($notifiable)
     {
-        return $notifiable;
+        
+        return $this->url;
+        
     }
-    // public function toBroadcast($notifiable)
-    // {
-    //     return new BroadcastMessage([
-    //         'thread' => $this->thread,
-    //     ]);
-    // }  
 }

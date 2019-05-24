@@ -96,6 +96,7 @@
                                         <th>created_at</th>
                                         <th>updated_at</th>
                                         <th>stok</th>
+                                        <th>berat</th>
                                         <th>aksi</th>
                                     </tr>
                                 </thead>
@@ -169,6 +170,11 @@
                                     <td>ga ada data<div align="center"></div></td>
                                      @else
                                         <td>{{ $angs->stock}}<div align="center"></div></td>
+                                    @endif
+                                    @if($angs->berat==null)
+                                    <td>ga ada data<div align="center"></div></td>
+                                     @else
+                                        <td>{{ $angs->berat}}<div align="center"></div></td>
                                     @endif
                                 
                                      <td bgcolor="#EEF2F7"><a href={{URL('admin/editProduct')}}/{{$angs->id}}>Edit</a></div></td>

@@ -11,7 +11,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('admin.login') }}">
                         @csrf
 
                         <div class="form-group row">

@@ -231,6 +231,12 @@
                                                   </select>
                                                 </div>
                                         </div>
+                                        <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>berat</label>
+                                                    <input class="form-control" id="berat" type="text" name="berat" placeholder="berat">
+                                                </div>
+                                            </div>
                     
 
                                         <input type="submit" name="Submit" value="Submit" class="btn btn-primary">

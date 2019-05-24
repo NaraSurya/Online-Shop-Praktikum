@@ -34,7 +34,10 @@ class User extends Authenticatable
      *
      * @var array
      */
-
+    public function notifications()
+    {
+            return $this->morphMany(UserNotif::class, 'notifiable')->orderBy('created_at', 'desc');
+    }
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

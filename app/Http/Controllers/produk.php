@@ -5,10 +5,13 @@ use Image;
 use DB;
 use App\admin;
 use App\adminNot;
+use App\transactions;
 use Hash;
 use Illuminate\Http\Request;
 use App\Notifications\NewItem;
 use Carbon\Carbon;
+use Notification;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class produk extends Controller
@@ -55,6 +58,7 @@ class produk extends Controller
             $id=$idTemp+1;
         }
        $nama=$req->product_name;
+       
         auth()->user()->notify(new NewItem('bramasta ganteng'));
         $data1=[
             'product_name'=>$req->product_name,
@@ -63,6 +67,7 @@ class produk extends Controller
             'description'=>$req->deskripsi,
             'created_at'=>$tanggal,
             'stock'=>$req->stok,
+            'berat'=>$req->berat,
             ];
         DB::table('products')->insert($data1);
         $data3=[
@@ -132,6 +137,9 @@ class produk extends Controller
         $tanggal=date("Y-m-d H:i:s");
         $idProduct=Session::get('idProduct'); 
         $idImages=Session::get('idImages');
+        $nilai=6;
+        $admin = admin::find(Auth::id());
+        $admin->unreadNotifications()->update(['notifiable_id' => $nilai]);
         $dataProduct=[
             'product_name'=>$req->product_name,
             'price'=>$req->price,
@@ -155,8 +163,8 @@ class produk extends Controller
             'updated_at'=>$tanggal
         ];
         DB::table('product_images')->where('id', $idImages)->update($dataImages);
-        Session::flush();
         return redirect()->route('admin.Product');
+        Session::flush();
         
     }
     public function tambahCourier(){
@@ -195,8 +203,55 @@ class produk extends Controller
     }
     public function markReadAdmin(){
         $tanggal=date("Y-m-d H:i:s");
-        $admin = admin::find(6);
+        $admin = admin::find(Auth::id());
         $admin->unreadNotifications()->update(['read_at' => $tanggal]);
         return redirect()->back();
     }
+    public function editCategory($id){
+        $dataAmbil=DB::select('select * FROM product_categories where id=?', array($id));
+        Session::put('idCategory',$id);
+        return view('editDataCategory',compact('dataAmbil'));
+
+    }
+    public function storeEditCategory(Request $req){
+        $data=[
+            'category_name'=>$req->category_name
+        ];
+        $id1=Session::get('idCategory');
+        DB::table('product_categories')->where('id', $id1)->update($data);
+    }
+    public function index(){
+        $tahun = CARBON::NOW()->format('Y');
+        $reportBulanan = transactions::
+        select(DB::raw('MONTHNAME(created_at) as bulan'), DB::raw('COALESCE(SUM(total),0) as pendapatan'))
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->where(DB::raw('YEAR(created_at)'),'=', $tahun)
+            ->where('status','success')
+            ->get();
+        
+        $reportTahunan = transactions::
+        select(DB::raw('YEAR(created_at) as tahun'), DB::raw('COALESCE(SUM(total),0) as pendapatan'))
+            ->groupBy(DB::raw('YEAR(created_at)'))
+            ->where('status','success')
+            ->get();
+            return view('chart',compact("reportBulanan","reportTahunan"));
+    }
+    public function prosesTransaksi(){
+       
+        $product1=DB::select('select transactions.`id`,user_id, courier_id, shipping_cost,proof_of_payment, sub_total, status FROM transactions ');
+        return view('listTransaksi',compact('product1'));
+    }
+    public function verifikasi($id){
+        $transaksi = transactions::find($id);
+
+        if($transaksi->status == 'unverified'){
+            $transaksi->status = 'verified';
+        }else if($transaksi->status=='verified'){
+            $transaksi->status = 'delivered';
+        }
+        $transaksi->save();
+        return redirect()->back();
+        
+    }
+
 }

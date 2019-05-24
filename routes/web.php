@@ -36,6 +36,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('storeTambProduct','produk@storeTambProduct')->name('admin.storeTambProduct');
     Route::get('detailCatProduct','produk@detailCatProduct')->name('admin.detailCatProduct');
     Route::get('editProduct/{id}','produk@editProduct');
+    Route::get('editCategory/{id}','produk@editCategory');
     Route::get('tambahDetailCatProduct','produk@tambahDetailCatProduct')->name('admin.tambahDetailCatProduct');
     Route::post('storeEditProduct','produk@storeEditProduct')->name('admin.storeEditProduct');
     Route::get('tambahCourier','produk@tambahCourier')->name('admin.dataCourier');
@@ -44,6 +45,12 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('editCourier/{id}','produk@editCourier');
     Route::get('storeEditCourier','produk@storeEditCourier')->name('admin.storeEditCourier');
     Route::get('markReadAdmin','produk@markReadAdmin')->name('admin.markReadAdmin');
+    Route::get('storeEditCategory','produk@storeEditCategory')->name('admin.storeEditCategory');
+    Route::get('index','produk@index')->name('admin.index');
+    Route::get('prosesTransaksi','produk@prosesTransaksi')->name('admin.transaction');
+    Route::get('verifikasi/{id}','produk@verifikasi');
+
+ 
     
 });
 
