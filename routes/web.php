@@ -10,8 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+<<<<<<< HEAD
 
 Route::get('/', 'HomeController@index')->name('home');;
+=======
+use App\User;
+use App\Notifications\NewItem;
+Route::get('/', function () {
+    return view('welcome');
+});
+>>>>>>> 16cf9c755f929b3623735832f72982723f4ec32d
 
 Auth::routes();
 Route::get('user/logout','Auth\LoginController@logoutUser')->name('user.logout');
@@ -33,6 +41,13 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('editProduct/{id}','produk@editProduct');
     Route::get('tambahDetailCatProduct','produk@tambahDetailCatProduct')->name('admin.tambahDetailCatProduct');
     Route::post('storeEditProduct','produk@storeEditProduct')->name('admin.storeEditProduct');
+    Route::get('tambahCourier','produk@tambahCourier')->name('admin.dataCourier');
+    Route::get('tambahCourierBaru','produk@tambahCourierBaru')->name('admin.tambahCourier');
+    Route::get('storeCourier','produk@storeCourier')->name('admin.storeCourier');
+    Route::get('editCourier/{id}','produk@editCourier');
+    Route::get('storeEditCourier','produk@storeEditCourier')->name('admin.storeEditCourier');
+    Route::get('markReadAdmin','produk@markReadAdmin')->name('admin.markReadAdmin');
+    
 });
 
 Route::group(['prefix' => 'midtest'], function () {

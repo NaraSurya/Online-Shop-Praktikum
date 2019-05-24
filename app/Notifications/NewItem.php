@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMassage;
+use Carbon\Carbon;
 
 class NewItem extends Notification
 {
@@ -22,16 +24,16 @@ class NewItem extends Notification
      * @return void
 
      */
-    private $details;
+    public $produkIni;
    
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($details)
+    public function __construct($nama)
     {
-        $this->details = $details;
+        $this->produkIni=$nama;
     }
    
     /**
@@ -57,10 +59,14 @@ class NewItem extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase($notifiable)
+    public function toArray($notifiable)
     {
-        return [
-            'order_id' => $this->details['order_id']
-        ];
-    }  
+        return $this->produkIni;
+    }
+    // public function toBroadcast($notifiable)
+    // {
+    //     return new BroadcastMessage([
+    //         'thread' => $this->thread,
+    //     ]);
+    // }  
 }
