@@ -48,6 +48,19 @@ Route::group(['prefix' => 'midtest'], function () {
 
 Route::group(['prefix' => 'user'], function () {
     Route::get('/product/{id}','HomeController@product')->name('user.product');
+    Route::get('/cart/{flag}/{id}','CartController@addRemoveCart')->name('cart.addRemove');
+    Route::get('/cart','cartController@index')->name('cart');
+    Route::get('/qtycart/{id}/{qty}','cartController@updateQuantity')->name('cart.qty');
+    Route::post('/detailCart','cartController@detailCart')->name('cart.detail');
+    Route::delete('/deleteCart/{id}','cartController@deleteCart')->name('cart.delete');
+    Route::post('/buyCart','cartController@buy')->name('cart.buy');
+
+    Route::get('/transaction','TransactionController@index')->name('transaction');
+    Route::get('/transaction/{id}','TransactionController@show')->name('transaction.show');
+    Route::post('/transaction/{id}/proof_of_payment','TransactionController@postPayment')->name('transaction.postPayment');
+    Route::get('/buyForm/{id}','BuyController@buyItem')->name('buy.form');
+    Route::post('/buy/{id}','BuyController@buy')->name('buy');
+    // Route::get('/buy/{id}','cartController@buyDirect')->name('buy');
 });
 // Route::get('test', function () {
 //     event(new App\Events\StatusLiked('Someone'));
@@ -55,4 +68,12 @@ Route::group(['prefix' => 'user'], function () {
 // });
 // Route::get('send', 'midtest@sendNotification');
 
+Route::group(['prefix' => 'raja-ongkir'], function () {
+    Route::get('/get-provinsi','RajaOngkirController@getProvinsi')->name('raja_ongkir.get_provinsi');
+    Route::get('/get-city','RajaOngkirController@getCity')->name('raja_ongkir.get_city');
+    Route::get('/checkshipping','RajaOngkirController@checkShipping')->name('raja_ongkir.checkShipping');
+
+});
+
+// Route::get('/get-provinsi','RajaOngkirController@getProvinsi')->name('raja.getProvinsi);
 

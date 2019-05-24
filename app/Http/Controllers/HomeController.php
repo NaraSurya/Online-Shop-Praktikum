@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use DB;
+use App\product;
 
 use Illuminate\Http\Request;
 
@@ -28,7 +29,8 @@ class HomeController extends Controller
         return view('welcome', ['products'=>$products]);
     }
 
-    public function product(){
-        return view('user.product');
+    public function product(Request $request){
+        $product = product::find($request->id);
+        return view('user.product',['product'=>$product]);
     }
 }
